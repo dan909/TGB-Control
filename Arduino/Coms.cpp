@@ -19,7 +19,7 @@ int getCR1000Time() {
       } else {
         int TimeNow = readin.toInt();
         readin = "";
-        CR1000Serial.write("L13-R15");
+        CR1000Serial.write("L13-R15 ");
         return(TimeNow);
       }
     }
