@@ -1,0 +1,49 @@
+'CR1000 Series
+'Created by Danny Awty-Carroll (dga1@aber.ac.uk)
+
+'Declare Public Variables
+Public PTemp, batt_volt
+Public Counter
+Public OutString As String * 1000
+Public InString As String * 1000
+
+ 
+
+'Define Data Tables
+DataTable (Test,1,-1)
+    DataInterval (0,15,Sec,10)
+    Minimum (1,batt_volt,FP2,0,False)
+    Sample (1,PTemp,FP2)
+    Sample (1,OutString,String)
+EndTable
+
+ 
+
+'Main Program
+BeginProg
+
+    'Set up communication ports to send and receive data
+    'jumper wire from C1 (COM1 TX) to C4 (COM2 RX)
+    SerialOpen (Com1,9600,16,0,10000)
+    SerialFlush(Com1)
+    
+
+    Scan (3,Sec,0,0)
+      PanelTemp (PTemp,250)
+      Battery (batt_volt)
+
+      Counter = Counter + 1
+      OutString = "test " + Counter
+
+      'Send String over communication port C1 (COM1 TX).
+      SerialOut(Com1,OutString,"",0,100)
+
+      'Receive String over communication port C4 (COM2 RX).
+      SerialIn(InString,Com1,100,0,1000)
+
+      'Call Output Tables
+      CallTable Test
+    NextScan
+    
+EndProg
+
