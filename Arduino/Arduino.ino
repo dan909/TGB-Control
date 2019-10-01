@@ -1,16 +1,13 @@
 
 #include "UI.h"
-#include <SoftwareSerial.h>
-SoftwareSerial mySerial(11, 12); // RX, TX
 
 float HotEnd[96]; //this array will hold integers
 float ColdEnd[96]; //this array will hold integers
 
-int R = 0;
+int R = 1;
 int Menu = 0;
 int UsrSel = 0;
-int bitein;
-int TimeNow;
+int CRTime;
 
 String readin = "";
 
@@ -39,9 +36,16 @@ void setup() {
 
 
 void loop() {
-  //Serial.print("R: "); Serial.println(R);
+  Serial.print("R: "); Serial.println(R);
   UsrSel = getButtonInput();
-    
+
+  if (R == 1) {
+    CRTime = getCR1000Time();
+    if(getCR1000Time > -1) {
+      Serial.println(printTime(CRTime));
+    }
+  }
+  
  if (Menu == MENU_Main) {
   if (R == 0) {
     printToDisplay("TGB stopped",0);
@@ -64,20 +68,7 @@ void loop() {
     }
     if (UsrSel == UP) {
       Menu = MENU_View;
-    }
-
-    if (mySerial.available()) {
-      bitein = mySerial.read();
-      if (isDigit(bitein)) {
-        readin += (char)bitein;
-      } else {
-        TimeNow = readin.toInt();
-        Serial.println(printTime(TimeNow));
-        readin = "";
-        mySerial.write("L 13 - R 5");
-      }
-    }
-  
+    }  
   }
  }
 
