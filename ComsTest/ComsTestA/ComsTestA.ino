@@ -1,9 +1,9 @@
 #include <SoftwareSerial.h>
 
 SoftwareSerial mySerial(11, 12); // RX, TX
-char bitein;
-char readin;
-
+int bitein;
+String readin = "";
+int TimeNow;
 
 String printTime(int no) {
   int H = floor(no/4);
@@ -30,19 +30,17 @@ void setup() {
 }
 
 void loop() { // run over and over
-  delay(50);
+
   if (mySerial.available()) {
-    delay(50);
     bitein = mySerial.read();
-    Serial.println(bitein);
-    if (bitein == '/') {
-      Serial.println(readin);
-      Serial.println(printTime(int(readin)));
-      readin = '/';
+    if (isDigit(bitein)) {
+      readin += (char)bitein;
     } else {
-      readin = readin + bitein;
+      TimeNow = readin.toInt();
+      Serial.println(printTime(TimeNow));
+      readin = "";
+      mySerial.write("L 13 - R 5");
     }
-    delay(50);
-    mySerial.write("OK");
   }
+  
 }
