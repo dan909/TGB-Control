@@ -1,5 +1,6 @@
 
 #include "UI.h"
+#include "Coms.h"
 
 float HotEnd[96]; //this array will hold integers
 float ColdEnd[96]; //this array will hold integers
@@ -8,9 +9,6 @@ int R = 1;
 int Menu = 0;
 int UsrSel = 0;
 int CRTime;
-
-String readin = "";
-
 
 //Menu shortcuts.
 #define MENU_Main 0
@@ -30,7 +28,7 @@ String readin = "";
 
 void setup() {
   Serial.begin(9600);
-  mySerial.begin(9600);
+  startComs();
   initDisplay(); 
 }
 
@@ -41,7 +39,7 @@ void loop() {
 
   if (R == 1) {
     CRTime = getCR1000Time();
-    if(getCR1000Time > -1) {
+    if(CRTime > -1) {
       Serial.println(printTime(CRTime));
     }
   }
