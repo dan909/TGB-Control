@@ -41,13 +41,13 @@ BeginProg
       Battery (batt_volt)
 
       Counter = Counter + 1
-      OutString = (Hour*4) + Floor(Minute/15)
+      OutString = ((Hour*4) + Floor(Minute/15)) + "/"
 
       'Send String over communication port C1 (COM1 TX).
-      SerialOut(Com1,""+OutString+"/","OK",1,100)
+      SerialOut(Com1,OutString,"",0,100)
 
-      'Receive String over communication port C4 (COM2 RX).
-      SerialIn(InString,Com1,100,0,100)
+      'Receive String over communication port C2 (COM1 RX).
+      SerialIn(InString,Com1,250,0,100)
 
       'Call Output Tables
       CallTable Test
