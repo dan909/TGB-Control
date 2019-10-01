@@ -6,8 +6,15 @@ Public PTemp, batt_volt
 Public Counter
 Public OutString As String * 1000
 Public InString As String * 1000
-
+Public GMT(9)	'real time clock
  
+ 
+ 
+Alias GMT(4) = Hour
+Alias GMT(5) = Minute
+Alias GMT(6) = Second
+Alias GMT(9) = UK_DOY
+
 
 'Define Data Tables
 DataTable (Test,1,-1)
@@ -24,22 +31,23 @@ BeginProg
 
     'Set up communication ports to send and receive data
     'jumper wire from C1 (COM1 TX) to C4 (COM2 RX)
-    SerialOpen (Com1,9600,16,0,10000)
+    SerialOpen (Com1,9600,16,50,10000)
     SerialFlush(Com1)
     
 
     Scan (3,Sec,0,0)
+      RealTime(GMT())
       PanelTemp (PTemp,250)
       Battery (batt_volt)
 
       Counter = Counter + 1
-      OutString = "test " + Counter
+      OutString = (Hour*4) + Floor(Minute/15)
 
       'Send String over communication port C1 (COM1 TX).
-      SerialOut(Com1,OutString,"",0,100)
+      SerialOut(Com1,""+OutString+"/","OK",1,100)
 
       'Receive String over communication port C4 (COM2 RX).
-      SerialIn(InString,Com1,100,0,1000)
+      SerialIn(InString,Com1,100,0,100)
 
       'Call Output Tables
       CallTable Test
