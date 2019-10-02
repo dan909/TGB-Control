@@ -7,6 +7,8 @@ Public Counter
 Public OutString As String * 1000
 Public InString As String * 1000
 Public GMT(9)	'real time clock
+Public TempsLR(2) As String * 10
+
  
  
  
@@ -31,11 +33,11 @@ BeginProg
 
     'Set up communication ports to send and receive data
     'jumper wire from C1 (COM1 TX) to C4 (COM2 RX)
-    SerialOpen (Com1,9600,16,50,10000)
+    SerialOpen (Com1,9600,16,5,10000)
     SerialFlush(Com1)
     
 
-    Scan (3,Sec,0,0)
+    Scan (15,Sec,0,0)
       RealTime(GMT())
       PanelTemp (PTemp,250)
       Battery (batt_volt)
@@ -45,9 +47,13 @@ BeginProg
 
       'Send String over communication port C1 (COM1 TX).
       SerialOut(Com1,OutString,"",0,100)
-
       'Receive String over communication port C2 (COM1 RX).
-      SerialIn(InString,Com1,250,0,100)
+      SerialIn(InString,Com1,150,0,16)
+
+      If Len(InString) > 5 Then
+        SplitStr(TempsLR(1),InString,"RL=",2,0)
+      EndIf
+      
 
       'Call Output Tables
       CallTable Test

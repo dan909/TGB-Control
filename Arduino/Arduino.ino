@@ -5,7 +5,6 @@
 float HotEnd[96]; //this array will hold integers
 float ColdEnd[96]; //this array will hold integers
 
-int R = 1;
 int Menu = 0;
 int UsrSel = 0;
 int CRTime;
@@ -29,46 +28,36 @@ int CRTime;
 void setup() {
   Serial.begin(9600);
   startComs();
-  initDisplay(); 
+  initDisplay();
+  memset(HotEnd,0,sizeof(HotEnd));
+  memset(ColdEnd,0,sizeof(ColdEnd));
+  
+  Serial.println("Start");
 }
 
 
 void loop() {
-  Serial.print("R: "); Serial.println(R);
+  Serial.println(">");
   UsrSel = getButtonInput();
 
-  if (R == 1) {
-    CRTime = getCR1000Time();
-    if(CRTime > -1) {
-      Serial.println(printTime(CRTime));
-    }
+  CRTime = getCR1000Time();
+  if(CRTime > -1) {
+    Serial.println(printTime(CRTime));
+    writeCR1000Temps(HotEnd[CRTime],ColdEnd[CRTime]);
   }
+
   
  if (Menu == MENU_Main) {
-  if (R == 0) {
-    printToDisplay("TGB stopped",0);
+    printToDisplay("TGB view ^",0);
     printToDisplay("< Setup | Run >",1);
     
-    if (UsrSel == RIGHT) {
-      R = 1;
-    }
     if (UsrSel == LEFT) {
       Menu = MENU_Setup;
     }
-  } else {
-    printToDisplay("Running | view ^",0);
-    printToDisplay("< Temp | Stop >",1);
-    if (UsrSel == RIGHT) {
-      R = 0;
-    }
-    if (UsrSel == LEFT) {
-      Menu = MENU_Temp;
-    }
     if (UsrSel == UP) {
       Menu = MENU_View;
-    }  
+    }    
   }
- }
 
 
  if (Menu == MENU_View) {

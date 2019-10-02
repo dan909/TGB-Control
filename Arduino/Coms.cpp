@@ -1,6 +1,7 @@
 
-#include <SoftwareSerial.h>
 #include "Arduino.h"
+#include <SoftwareSerial.h>
+
 
 
 SoftwareSerial CR1000Serial(11, 12); // RX, TX
@@ -19,9 +20,25 @@ int getCR1000Time() {
       } else {
         int TimeNow = readin.toInt();
         readin = "";
-        CR1000Serial.write("L13-R15 ");
         return(TimeNow);
       }
     }
     return(-1);
+}
+
+
+void writeCR1000Temps(float L, float R) {
+  char Lc[5]; char Rc[5];
+  dtostrf(L, 4, 2, Lc); dtostrf(R, 4, 1, Rc);
+  Serial.print(Lc);
+  Serial.println(Rc);
+  String toLogger = "L=";
+  toLogger += Lc;
+  toLogger += "_R=";
+  toLogger += Rc;
+  toLogger += " ";
+  char chrToLogger[50];
+  toLogger.toCharArray(chrToLogger, 50);
+  Serial.println(chrToLogger);
+  CR1000Serial.write(chrToLogger);
 }
