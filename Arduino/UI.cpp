@@ -123,6 +123,14 @@ String TimePartLCD(int T) {
 }
 
 /*
+ * Make a char of the times
+ */
+String TimePartLCD2(int T1, int T2) {
+  String LineChar = "@ "+ String(printTime(T1)) +" - "+ String(printTime(T2));
+  return LineChar;
+}
+
+/*
  * Make a char of the Temps
  */
 String TempPartLCD(float A,float B) {
@@ -178,4 +186,3 @@ byte getButtonInput() {
 
   return buttonNum;
 }
-

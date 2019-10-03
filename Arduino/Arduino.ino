@@ -103,25 +103,38 @@ void loop() {
 
  
  if (Menu == MENU_SetupL) {
-  int i = 0;
-  float Temp = 0.00;
   bool Setting = true;
-  while (Setting) {
-    UsrSel = getButtonInput();
-    printToDisplay("L" + TimePartLCD(i),0);
-    printToDisplay("Temp = "+String(ColdEnd[i])+"C",1);
-    if (UsrSel == UP) {
-      ColdEnd[i] = ColdEnd[i] + 0.1;
-    } else if (UsrSel == DOWN) {
-      ColdEnd[i] = ColdEnd[i] - 0.1;
-    } else if (UsrSel == LEFT){
-      i--;
-    } else if (UsrSel == RIGHT){
-      i++;
-    } else if (UsrSel == SELECT){
-      Temp = ColdEnd[i];
-    } else {
-      delay(10);
+  int f = 0;
+  int t = 96;
+  while (f < 96) {
+    float Temp = ColdEnd[f];
+    while (Setting){
+      UsrSel = getButtonInput();
+      printToDisplay("L" + TimePartLCD2(f,t),0);
+      printToDisplay("Temp = "+String(Temp)+"C",1);
+      if (UsrSel == UP) {
+        Temp += 0.05;
+      } else if (UsrSel == DOWN) {
+        Temp -= 0.05;
+      } else if (UsrSel == LEFT){
+        t--;
+      } else if (UsrSel == RIGHT){
+        t++;
+      } else if (UsrSel == SELECT){
+        for(int i=f; i<=t; i++) {  
+          ColdEnd[i] = Temp;
+        }
+        f = t;
+        Menu = MENU_Main;
+      } else {
+        delay(7);
+      }
+
+      if (f == 96) {
+        Setting = false;
+      } else if (t <= f) {
+        t = f-1
+      }
     }
   }
  }
