@@ -133,7 +133,7 @@ void loop() {
       if (f == 96) {
         Setting = false;
       } else if (t <= f) {
-        t = f-1
+        t = f-1;
       }
     }
   }
