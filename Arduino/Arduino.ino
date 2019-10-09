@@ -12,11 +12,9 @@ int CRTime;
 //Menu shortcuts.
 #define MENU_Main 0
 #define MENU_View 5
-#define MENU_Temp 10
 #define MENU_Setup 9
 #define MENU_SetupL 11
 #define MENU_SetupR 12
-#define MENU_Save 20
 
 #define RIGHT 1
 #define LEFT 2
@@ -29,9 +27,6 @@ void setup() {
   Serial.begin(9600);
   startComs();
   initDisplay();
-  memset(HotEnd,0,sizeof(HotEnd));
-  memset(ColdEnd,0,sizeof(ColdEnd));
-  
   Serial.println("Start");
 }
 
@@ -106,12 +101,12 @@ void loop() {
   bool Setting = true;
   int f = 0;
   int t = 96;
-  while (f < 96) {
+  while (f != 96) {
     float Temp = ColdEnd[f];
     while (Setting){
-      UsrSel = getButtonInput();
       printToDisplay("L" + TimePartLCD2(f,t),0);
       printToDisplay("Temp = "+String(Temp)+"C",1);
+      UsrSel = getButtonInput();
       if (UsrSel == UP) {
         Temp += 0.05;
       } else if (UsrSel == DOWN) {
@@ -132,11 +127,13 @@ void loop() {
 
       if (f == 96) {
         Setting = false;
-      } else if (t <= f) {
-        t = f-1;
+      } else if (t > 96) {
+        t = 96;
       }
     }
   }
+  printToDisplay("  Temps Saved",0);
+  printToDisplay("  [main menu]",1);
  }
 
  
