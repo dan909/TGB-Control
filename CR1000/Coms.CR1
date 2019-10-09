@@ -1,21 +1,33 @@
 'CR1000 Series
 'Created by Danny Awty-Carroll (dga1@aber.ac.uk)
 
+Public PID As Boolean = false ' this is false if bang bang control is used and true if a proportional integral derivative control shoud be used
+
+
+
 'Declare Public Variables
 Public PTemp, batt_volt
 Public Counter
 Public OutString As String * 1000
 Public InString As String * 1000
 Public GMT(9)	'real time clock
-Public TempsLR(2) As String * 10
+Public TempsLR(2) As Float 25.0
+Public SetTemp(2) As Float 25.0
+Public EndTemp(2)
+Public BarTemp(2)
 
- 
- 
- 
 Alias GMT(4) = Hour
 Alias GMT(5) = Minute
 Alias GMT(6) = Second
 Alias GMT(9) = UK_DOY
+
+
+'Units SetTemp(1)=Deg C
+'Units SetTemp(2)=Deg C
+'Units EndTemp(1)=Deg C
+'Units EndTemp(2)=Deg C
+'Units BarTemp(1)=Deg C
+'Units BarTemp(2)=Deg C
 
 
 'Define Data Tables
@@ -49,6 +61,7 @@ BeginProg
       SerialOut(Com1,OutString,"",0,100)
       'Receive String over communication port C2 (COM1 RX).
       SerialIn(InString,Com1,150,0,16)
+      SerialFlush(Com1)
 
       If Len(InString) > 5 Then
         SplitStr(TempsLR(1),InString,"RL=",2,0)
