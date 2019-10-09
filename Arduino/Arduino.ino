@@ -2,8 +2,8 @@
 #include "UI.h"
 #include "Coms.h"
 
-float HotEnd[96]; //this array will hold integers
-float ColdEnd[96]; //this array will hold integers
+float LeftEnd[96]; //this array will hold integers
+float RightEnd[96]; //this array will hold integers
 
 int Menu = 0;
 int UsrSel = 0;
@@ -38,7 +38,7 @@ void loop() {
   CRTime = getCR1000Time();
   if(CRTime > -1) {
     Serial.println(printTime(CRTime));
-    writeCR1000Temps(HotEnd[CRTime],ColdEnd[CRTime]);
+    writeCR1000Temps(LeftEnd[CRTime],RightEnd[CRTime]);
   }
 
   
@@ -59,7 +59,7 @@ void loop() {
   for (int i=0; i<96; i++){
     UsrSel = getButtonInput();
     printToDisplay(TimePartLCD(i),0);
-    printToDisplay(TempPartLCD(ColdEnd[i],HotEnd[i]),1);
+    printToDisplay(TempPartLCD(RightEnd[i],LeftEnd[i]),1);
     if (i >= 0 && i < 96) {
       if (UsrSel == UP || UsrSel == RIGHT) {
         i=i+1;
@@ -80,19 +80,22 @@ void loop() {
 
 
  if (Menu == MENU_Setup) {
+  printToDisplay(" Set TGB Temps? ",0);
+  printToDisplay("< Left | Right >",1);
+  
   UsrSel = getButtonInput();
+  
   if (UsrSel == LEFT) {
     Menu = MENU_SetupL;
     printToDisplay(" Left ",0);
-  } else if (UsrSel == RIGHT) {
+  }
+  if (UsrSel == RIGHT) {
     Menu = MENU_SetupR;
     printToDisplay(" Right ",0);
-  } else if (UsrSel == UP || UsrSel == DOWN || UsrSel == SELECT){
+  }
+  if (UsrSel == UP || UsrSel == DOWN || UsrSel == SELECT){
     Menu = MENU_Main;
-  } else {
-    printToDisplay(" Set TGB Temps? ",0);
-    printToDisplay("< Left | Right >",1);
-  }  
+  }
  }
 
 
@@ -102,7 +105,7 @@ void loop() {
   int f = 0;
   int t = 96;
   while (f != 96) {
-    float Temp = ColdEnd[f];
+    float Temp = RightEnd[f];
     while (Setting){
       printToDisplay("L" + TimePartLCD2(f,t),0);
       printToDisplay("Temp = "+String(Temp)+"C",1);
@@ -117,7 +120,7 @@ void loop() {
         t++;
       } else if (UsrSel == SELECT){
         for(int i=f; i<=t; i++) {  
-          ColdEnd[i] = Temp;
+          RightEnd[i] = Temp;
         }
         f = t;
         Menu = MENU_Main;
@@ -129,6 +132,8 @@ void loop() {
         Setting = false;
       } else if (t > 96) {
         t = 96;
+      } else if (t <= f) {
+        t = f+1;
       }
     }
   }
@@ -136,6 +141,46 @@ void loop() {
   printToDisplay("  [main menu]",1);
  }
 
+ if (Menu == MENU_SetupR) {
+  bool Setting = true;
+  int f = 0;
+  int t = 96;
+  while (f != 96) {
+    float Temp = LeftEnd[f];
+    while (Setting){
+      printToDisplay("L" + TimePartLCD2(f,t),0);
+      printToDisplay("Temp = "+String(Temp)+"C",1);
+      UsrSel = getButtonInput();
+      if (UsrSel == UP) {
+        Temp += 0.05;
+      } else if (UsrSel == DOWN) {
+        Temp -= 0.05;
+      } else if (UsrSel == LEFT){
+        t--;
+      } else if (UsrSel == RIGHT){
+        t++;
+      } else if (UsrSel == SELECT){
+        for(int i=f; i<=t; i++) {  
+          LeftEnd[i] = Temp;
+        }
+        f = t;
+        Menu = MENU_Main;
+      } else {
+        delay(7);
+      }
+
+      if (f == 96) {
+        Setting = false;
+      } else if (t > 96) {
+        t = 96;
+      } else if (t <= f) {
+        t = f+1;
+      }
+    }
+  }
+  printToDisplay("  Temps Saved",0);
+  printToDisplay("  [main menu]",1);
+ }
  
   delay(100);
   
