@@ -100,14 +100,14 @@ void loop() {
 
 
  
- if (Menu == MENU_SetupL) {
+ if (Menu == MENU_SetupR) {
   bool Setting = true;
   int f = 0;
   int t = 96;
   while (f != 96) {
     float Temp = RightEnd[f];
     while (Setting){
-      printToDisplay("L" + TimePartLCD2(f,t),0);
+      printToDisplay("R" + TimePartLCD2(f,t),0);
       printToDisplay("Temp = "+String(Temp)+"C",1);
       UsrSel = getButtonInput();
       if (UsrSel == UP) {
@@ -137,11 +137,11 @@ void loop() {
       }
     }
   }
-  printToDisplay("  Temps Saved",0);
+  printToDisplay("R Temps Saved",0);
   printToDisplay("  [main menu]",1);
  }
 
- if (Menu == MENU_SetupR) {
+ if (Menu == MENU_SetupL) {
   bool Setting = true;
   int f = 0;
   int t = 96;
@@ -178,7 +178,7 @@ void loop() {
       }
     }
   }
-  printToDisplay("  Temps Saved",0);
+  printToDisplay("L Temps Saved",0);
   printToDisplay("  [main menu]",1);
  }
  
