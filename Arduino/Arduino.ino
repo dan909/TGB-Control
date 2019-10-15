@@ -56,7 +56,7 @@ void loop() {
     if(Rnd >= 100) {printToDisplay("TGB Running.",0);}
     if(Rnd < 100) {printToDisplay("TGB Running .",0);}
     if(Rnd < 50) {printToDisplay("TGB Running  .",0);}
-    if(Rnd == 0) {printToDisplay("TGB Running",0);}
+    if(Rnd < 1) {printToDisplay("TGB Running",0);}
     printToDisplay("< Setup | View >",1);
     
     if (UsrSel == LEFT) {
@@ -116,9 +116,17 @@ void loop() {
  if (Menu == MENU_SetupR) {
   bool Setting = true;
   int f = 0;
-  int t = 96;
+  int t = 0;
   while (f != 96) {
     float Temp = RightEnd[f];
+
+    for(int i=t; i<96; i++) {
+      t = i;
+      if(RightEnd[i] != Temp) {
+        break;
+      }
+    }
+    
     while (Setting){
       printToDisplay("R" + TimePartLCD2(f,t),0);
       printToDisplay("Temp = "+String(Temp)+"C",1);
@@ -168,9 +176,17 @@ void loop() {
  if (Menu == MENU_SetupL) {
   bool Setting = true;
   int f = 0;
-  int t = 96;
+  int t = 0;
   while (f != 96) {
     float Temp = LeftEnd[f];
+
+    for(int i=t; i<96; i++) {
+      t = i;
+      if(LeftEnd[i] != Temp) {
+        break;
+      }
+    }
+    
     while (Setting){
       printToDisplay("L" + TimePartLCD2(f,t),0);
       printToDisplay("Temp = "+String(Temp)+"C",1);
