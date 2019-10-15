@@ -46,16 +46,17 @@ void loop() {
   if(CRTime > -1) {
     Serial.println(printTime(CRTime));
     writeCR1000Temps(LeftEnd[CRTime],RightEnd[CRTime]);
+    Rnd = random(1, 150);
+  } else {
+    Rnd = 0;
   }
 
   
  if (Menu == MENU_Main) {
-    Rnd = random(1, 200);
-    if(Rnd >= 150) {printToDisplay("TGB Running.",0);}
-    if(Rnd < 150) {printToDisplay("TGB Running .",0);}
-    if(Rnd < 100) {printToDisplay("TGB Running  .",0);}
-    if(Rnd < 50) {printToDisplay("TGB Running   .",0);}
-    if(Rnd < 10) {printToDisplay("TGB Running    .",0);}
+    if(Rnd >= 100) {printToDisplay("TGB Running.",0);}
+    if(Rnd < 100) {printToDisplay("TGB Running .",0);}
+    if(Rnd < 50) {printToDisplay("TGB Running  .",0);}
+    if(Rnd == 0) {printToDisplay("TGB Running",0);}
     printToDisplay("< Setup | View >",1);
     
     if (UsrSel == LEFT) {
