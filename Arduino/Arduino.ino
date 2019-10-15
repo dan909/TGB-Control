@@ -45,12 +45,12 @@ void loop() {
 
   
  if (Menu == MENU_Main) {
-    Rnd = random(1, 250);
-    if(Rnd < 10) {printToDisplay("TGB Running.....",0);}
-    if(Rnd < 50) {printToDisplay("TGB Running....",0);}
-    if(Rnd < 100) {printToDisplay("TGB Running...",0);}
-    if(Rnd < 150) {printToDisplay("TGB Running..",0);}
-    if(Rnd > 149) {printToDisplay("TGB Running.",0);}
+    Rnd = random(1, 200);
+    if(Rnd > 150) {printToDisplay("TGB Running.",0);}
+    if(Rnd < 150) {printToDisplay("TGB Running .",0);}
+    if(Rnd < 100) {printToDisplay("TGB Running  .",0);}
+    if(Rnd < 50) {printToDisplay("TGB Running   .",0);}
+    if(Rnd < 10) {printToDisplay("TGB Running    .",0);}
     printToDisplay("< Setup | View >",1);
     
     if (UsrSel == LEFT) {
