@@ -18,15 +18,15 @@ Public EndLR(2) As Float
 Public MeanTempLR(2)  As Float
 Public TempDifLR(2)  As Float
 
-Public A1 As Float
-Public A7 As Float
-Public A14 As Float
-Public G1 As Float
-Public G7 As Float
-Public G14 As Float
-Public Q1 As Float
-Public Q7 As Float
-Public Q14 As Float
+Public A2 As Float
+Public A8 As Float
+Public A13 As Float
+Public G2 As Float
+Public G8 As Float
+Public G13 As Float
+Public Q2 As Float
+Public Q8 As Float
+Public Q13 As Float
 
 Alias GMT(4) = Hour
 Alias GMT(5) = Minute
@@ -39,15 +39,15 @@ Public HeatRight As Boolean
 Units EndLR(1)=Deg C
 Units EndLR(2)=Deg C
 
-Units A1=Deg C
-Units A7=Deg C
-Units A14=Deg C
-Units G1=Deg C
-Units G7=Deg C
-Units G14=Deg C
-Units Q1=Deg C
-Units Q7=Deg C
-Units Q14=Deg C
+Units A2=Deg C
+Units A8=Deg C
+Units A13=Deg C
+Units G2=Deg C
+Units G8=Deg C
+Units G13=Deg C
+Units Q2=Deg C
+Units Q8=Deg C
+Units Q13=Deg C
 
 Units PTemp_C=Deg C
 
@@ -64,15 +64,15 @@ DataTable (Test,1,-1)
     Sample (1,OutString,String)
     Average(1,EndLR(1),FP2,False)
 	  Average(1,EndLR(2),FP2,False)
-    Average(1,A1,FP2,False)
-	  Average(1,A7,FP2,False)
-	  Average(1,A14,FP2,False)
-    Average(1,G1,FP2,False)
-	  Average(1,G7,FP2,False)
-	  Average(1,G14,FP2,False)
-	  Average(1,Q1,FP2,False)
-	  Average(1,Q7,FP2,False)
-	  Average(1,Q14,FP2,False)
+    Average(1,A2,FP2,False)
+	  Average(1,A8,FP2,False)
+	  Average(1,A13,FP2,False)
+    Average(1,G2,FP2,False)
+	  Average(1,G8,FP2,False)
+	  Average(1,G13,FP2,False)
+	  Average(1,Q2,FP2,False)
+	  Average(1,Q8,FP2,False)
+	  Average(1,Q13,FP2,False)
 EndTable
 
  
@@ -106,21 +106,21 @@ BeginProg
       
       PanelTemp(PTemp_C,_60Hz)
       TCDiff(EndLR(),2,mV2_5,1,TypeT,PTemp_C,True ,0,250,1.0,0)
-      TCSe(A1,1,mV2_5,5,TypeT,PTemp_C,False,0,250,1.0,0)
-      TCSe(A7,1,mV2_5,6,TypeT,PTemp_C,False,0,250,1.0,0)
-      TCSe(A14,1,mV2_5,7,TypeT,PTemp_C,False,0,250,1.0,0)
-      TCSe(G1,1,mV2_5,8,TypeT,PTemp_C,False,0,250,1.0,0)
-      TCSe(G7,1,mV2_5,9,TypeT,PTemp_C,False,0,250,1.0,0)
-      TCSe(G14,1,mV2_5,10,TypeT,PTemp_C,False,0,250,1.0,0)
-      TCSe(Q1,1,mV2_5,11,TypeT,PTemp_C,False,0,250,1.0,0)
-      TCSe(Q7,1,mV2_5,12,TypeT,PTemp_C,False,0,250,1.0,0)
-      TCSe(Q14,1,mV2_5,13,TypeT,PTemp_C,False,0,250,1.0,0)
+      TCSe(A2,1,mV2_5,5,TypeT,PTemp_C,False,0,250,1.0,0)
+      TCSe(A8,1,mV2_5,6,TypeT,PTemp_C,False,0,250,1.0,0)
+      TCSe(A13,1,mV2_5,7,TypeT,PTemp_C,False,0,250,1.0,0)
+      TCSe(G2,1,mV2_5,8,TypeT,PTemp_C,False,0,250,1.0,0)
+      TCSe(G8,1,mV2_5,9,TypeT,PTemp_C,False,0,250,1.0,0)
+      TCSe(G13,1,mV2_5,10,TypeT,PTemp_C,False,0,250,1.0,0)
+      TCSe(Q2,1,mV2_5,11,TypeT,PTemp_C,False,0,250,1.0,0)
+      TCSe(Q8,1,mV2_5,12,TypeT,PTemp_C,False,0,250,1.0,0)
+      TCSe(Q13,1,mV2_5,13,TypeT,PTemp_C,False,0,250,1.0,0)
       
       
       
       If(PID) Then
-        MeanTempLR(1) = (A1 + A7 + A14)/3
-        MeanTempLR(2) = (Q1 + Q7 + Q14)/3
+        MeanTempLR(1) = (A2 + A8 + A13)/3
+        MeanTempLR(2) = (Q2 + Q8 + Q13)/3
         
         If(EndLR(1) < MeanTempLR(1)) Then
           HeatLeft = ON
