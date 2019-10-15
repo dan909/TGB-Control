@@ -134,6 +134,9 @@ BeginProg
           HeatRight = OFF
         EndIf
 
+        PortSet(4, HeatLeft)
+        PortSet(5, HeatRight)
+        
         
       Else
         If(EndLR(1) < SetLR(1)) Then
@@ -148,11 +151,12 @@ BeginProg
           HeatRight = OFF
         EndIf
       
+        PortSet(4, HeatLeft)
+        PortSet(5, HeatRight)
       EndIf
       
       
-      PortSet(5, HeatLeft)
-      PortSet(6, HeatRight)
+
       
 
       'Call Output Tables
