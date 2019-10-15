@@ -30,6 +30,11 @@ void setup() {
   startComs();
   initDisplay();
   Serial.println("Start");
+
+  for(int i=0; i<96; i++) {  
+    RightEnd[i] = readTemp(i,"R");
+    LeftEnd[i] = readTemp(i,"L");
+  }
 }
 
 
@@ -46,7 +51,7 @@ void loop() {
   
  if (Menu == MENU_Main) {
     Rnd = random(1, 200);
-    if(Rnd > 150) {printToDisplay("TGB Running.",0);}
+    if(Rnd >= 150) {printToDisplay("TGB Running.",0);}
     if(Rnd < 150) {printToDisplay("TGB Running .",0);}
     if(Rnd < 100) {printToDisplay("TGB Running  .",0);}
     if(Rnd < 50) {printToDisplay("TGB Running   .",0);}
