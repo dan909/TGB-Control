@@ -1,6 +1,7 @@
 
 #include "UI.h"
 #include "Coms.h"
+#include "EEPROM.h"
 
 float LeftEnd[96]; //this array will hold integers
 float RightEnd[96]; //this array will hold integers
@@ -8,6 +9,7 @@ float RightEnd[96]; //this array will hold integers
 int Menu = 0;
 int UsrSel = 0;
 int CRTime;
+int Rnd =0;
 
 //Menu shortcuts.
 #define MENU_Main 0
@@ -43,13 +45,18 @@ void loop() {
 
   
  if (Menu == MENU_Main) {
-    printToDisplay("TGB view ^",0);
-    printToDisplay("< Setup | Run >",1);
+    Rnd = random(1, 250);
+    if(Rnd < 10) {printToDisplay("TGB Running.....",0);}
+    if(Rnd < 50) {printToDisplay("TGB Running....",0);}
+    if(Rnd < 100) {printToDisplay("TGB Running...",0);}
+    if(Rnd < 150) {printToDisplay("TGB Running..",0);}
+    if(Rnd > 149) {printToDisplay("TGB Running.",0);}
+    printToDisplay("< Setup | View >",1);
     
     if (UsrSel == LEFT) {
       Menu = MENU_Setup;
     }
-    if (UsrSel == UP) {
+    if (UsrSel == RIGHT) {
       Menu = MENU_View;
     }    
   }
@@ -128,6 +135,12 @@ void loop() {
         delay(7);
       }
 
+      if (Temp < -20) {
+        Temp = -20;
+      }  else if (Temp > 65) {
+        Temp = 65;
+      }
+
       if (f == 96) {
         Setting = false;
       } else if (t > 96) {
@@ -136,6 +149,11 @@ void loop() {
         t = f+1;
       }
     }
+  }
+  
+  printToDisplay("R Saving",0);
+  for(int i=0; i<96; i++) {  
+    saveTemp(RightEnd[i],i,"R");
   }
   printToDisplay("R Temps Saved",0);
   printToDisplay("  [main menu]",1);
@@ -169,6 +187,12 @@ void loop() {
         delay(7);
       }
 
+      if (Temp < -31) {
+        Temp = -31;
+      }  else if (Temp > 40) {
+        Temp = 40;
+      }
+
       if (f == 96) {
         Setting = false;
       } else if (t > 96) {
@@ -177,6 +201,11 @@ void loop() {
         t = f+1;
       }
     }
+  }
+  
+  printToDisplay("L Saving",0);
+  for(int i=0; i<96; i++) {  
+    saveTemp(LeftEnd[i],i,"L");
   }
   printToDisplay("L Temps Saved",0);
   printToDisplay("  [main menu]",1);
