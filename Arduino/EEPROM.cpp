@@ -15,20 +15,20 @@ int addressFind(int no, bool side, bool Int) {
     address = address + 300;
   }
 
-  //Serial.print("Address = ");
-  //Serial.println(address);
+  Serial.print("Address = ");
+  Serial.println(address);
   
   return address;
 }
 
-void saveTemp(float Temp, int no, char side) {
+void saveTemp(float Temp, int no, bool side) {
  
   Temp = Temp + 100.0;
 
   int Tmp = floor(Temp);
   int Des = round((Temp - Tmp)*100);
 
-  if (side == "R") {
+  if (side) {
     EEPROM.update(addressFind(no,1,1), Tmp);
     EEPROM.update(addressFind(no,1,0), Des);
   } else {
@@ -39,12 +39,12 @@ void saveTemp(float Temp, int no, char side) {
 }
 
 
-float readTemp(int no, char side) {
+float readTemp(int no, bool side) {
   int Tmp;
   int Des;
   float Temp;
   
-  if (side == "R") {
+  if (side) {
     Tmp = EEPROM.read(addressFind(no,1,1));
     Des = EEPROM.read(addressFind(no,1,0));
   } else {
@@ -55,8 +55,8 @@ float readTemp(int no, char side) {
   Temp = Tmp;
   Temp = (Temp-100) + (float(Des)/100);
 
-  //Serial.print("Line is = ");
-  //Serial.println(Temp);
+  Serial.print("Line is = ");
+  Serial.println(Temp);
 
   return Temp;
 }

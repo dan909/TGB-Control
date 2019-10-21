@@ -3,5 +3,5 @@
  */
 
 
-void saveTemp(float Temp, int no, char side);
-float readTemp(int no, char side);
+void saveTemp(float Temp, int no, bool side);
+float readTemp(int no, bool side);

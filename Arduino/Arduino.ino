@@ -11,6 +11,11 @@ int UsrSel = 0;
 int CRTime;
 int Rnd =0;
 
+bool Setting;
+int f;
+int t;
+float Temp;
+
 //Menu shortcuts.
 #define MENU_Main 0
 #define MENU_View 5
@@ -32,8 +37,8 @@ void setup() {
   Serial.println("Start");
 
   for(int i=0; i<96; i++) {  
-    RightEnd[i] = readTemp(i,"R");
-    LeftEnd[i] = readTemp(i,"L");
+    RightEnd[i] = readTemp(i,1);
+    LeftEnd[i] = readTemp(i,0);
   }
 }
 
@@ -82,7 +87,7 @@ void loop() {
         Menu = MENU_Main;
         break;
       } else {
-        delay(600);
+        delay(500);
       }
       delay(100);
     }
@@ -114,11 +119,11 @@ void loop() {
 
  
  if (Menu == MENU_SetupR) {
-  bool Setting = true;
-  int f = 0;
-  int t = 0;
+  Setting = true;
+  f = 0;
+  t = 0;
   while (f != 96) {
-    float Temp = RightEnd[f];
+    Temp = RightEnd[f];
 
     for(int i=t; i<96; i++) {
       t = i;
@@ -167,18 +172,18 @@ void loop() {
   
   printToDisplay("R Saving",0);
   for(int i=0; i<96; i++) {  
-    saveTemp(RightEnd[i],i,"R");
+    saveTemp(RightEnd[i],i,1);
   }
   printToDisplay("R Temps Saved",0);
   printToDisplay("  [main menu]",1);
  }
 
  if (Menu == MENU_SetupL) {
-  bool Setting = true;
-  int f = 0;
-  int t = 0;
+  Setting = true;
+  f = 0;
+  t = 0;
   while (f != 96) {
-    float Temp = LeftEnd[f];
+    Temp = LeftEnd[f];
 
     for(int i=t; i<96; i++) {
       t = i;
@@ -227,7 +232,7 @@ void loop() {
   
   printToDisplay("L Saving",0);
   for(int i=0; i<96; i++) {  
-    saveTemp(LeftEnd[i],i,"L");
+    saveTemp(LeftEnd[i],i,0);
   }
   printToDisplay("L Temps Saved",0);
   printToDisplay("  [main menu]",1);
