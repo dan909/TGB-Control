@@ -57,11 +57,9 @@ Const OFF = 0
 
 
 'Define Data Tables
-DataTable (Test,1,-1)
-    DataInterval (0,15,Sec,10)
-    Minimum (1,batt_volt,FP2,0,False)
-    Sample (1,PTemp,FP2)
-    Sample (1,OutString,String)
+DataTable (TGB,1,-1)
+    DataInterval (0,1,Min,10)
+    Sample (1,InString,String)
     Average(1,EndLR(1),FP2,False)
 	  Average(1,EndLR(2),FP2,False)
     Average(1,A2,FP2,False)
@@ -75,7 +73,16 @@ DataTable (Test,1,-1)
 	  Average(1,Q13,FP2,False)
 EndTable
 
- 
+
+DataTable (Batt,1,-1)
+    DataInterval(0,1,Hr,10)
+    Minimum(1,batt_volt,FP2,0,False)
+    Average(1,PTemp,FP2,False)
+    Average(1,MeanTempLR(1),FP2,False)
+	  Average(1,MeanTempLR(2),FP2,False)
+EndTable
+
+
 
 'Main Program
 BeginProg
@@ -116,12 +123,21 @@ BeginProg
       TCSe(Q8,1,mV2_5,12,TypeT,PTemp_C,False,0,250,1.0,0)
       TCSe(Q13,1,mV2_5,13,TypeT,PTemp_C,False,0,250,1.0,0)
       
-      
-      
-      If(PID) Then
-        MeanTempLR(1) = (A2 + A8 + A13)/3
-        MeanTempLR(2) = (Q2 + Q8 + Q13)/3
+      MeanTempLR(1) = (A2 + A8 + A13)/3
+      MeanTempLR(2) = (Q2 + Q8 + Q13)/3
         
+        
+      'sanity check!
+      If(SetLR(1) > 40) Then
+        SetLR(1) = 40
+      EndIf
+       
+      If(SetLR(2) > 65) Then
+        SetLR(2) = 65
+      EndIf
+      
+      
+      If(PID) Then   
         If(EndLR(1) < MeanTempLR(1)) Then
           HeatLeft = ON
         Else
@@ -160,7 +176,8 @@ BeginProg
       
 
       'Call Output Tables
-      CallTable Test
+      CallTable TGB
+      CallTable Batt
     NextScan
     
 EndProg
