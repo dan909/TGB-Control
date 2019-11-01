@@ -3,8 +3,8 @@
 #include "Coms.h"
 #include "EEPROM.h"
 
-float LeftEnd[96]; //this array will hold integers
-float RightEnd[96]; //this array will hold integers
+float LeftEnd[96]; //this array will hold 
+float RightEnd[96]; //this array will hold 
 
 int Menu = 0;
 int UsrSel = 0;
